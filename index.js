@@ -1,6 +1,18 @@
 /**
  * Don't change these constants!
  */
+//  var dodger = document.getElementById('dodger')
+//  document.addEventListener('keydown', function(e) {
+//   if (e.which === 39) {
+//     var leftNumbers = dodger.style.left.replace('px', '')
+//     var left = parseInt(leftNumbers, 10)
+//
+//     if ( left < 360) {
+//       dodger.style.left = `${left + 1}px`
+//
+//     }
+//   }
+// })
 const DODGER = document.getElementById('dodger')
 const GAME = document.getElementById('game')
 const GAME_HEIGHT = 400
@@ -29,11 +41,13 @@ function checkCollision(rock) {
     const dodgerLeftEdge = positionToInteger(DODGER.style.left)
 
     // FIXME: The DODGER is 40 pixels wide -- how do we get the right edge?
+    // 360
     const dodgerRightEdge = 0;
 
     const rockLeftEdge = positionToInteger(rock.style.left)
 
     // FIXME: The rock is 20 pixel's wide -- how do we get the right edge?
+    // 380
     const rockRightEdge = 0;
 
     if (false /**
@@ -108,6 +122,7 @@ function createRock(x) {
  * Finally, alert "YOU LOSE!" to the player.
  */
 function endGame() {
+  clearInterval(gameInterval)
 }
 
 function moveDodger(e) {
@@ -119,6 +134,16 @@ function moveDodger(e) {
    * we've declared for you above.)
    * And be sure to use the functions declared below!
    */
+
+   if (e.which === LEFT_ARROW) {
+     e.preventDefault()
+     e.stopPropagation()
+     moveDodgerLeft()
+   } else if (e.which === RIGHT_ARROW) {
+     e.preventDefault()
+     e.stopPropagation()
+     moveDodgerRight()
+   }
 }
 
 function moveDodgerLeft() {
@@ -127,6 +152,25 @@ function moveDodgerLeft() {
    * This function should move DODGER to the left
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
+
+  //  function move(el) {
+     var leftNumbers = DODGER.style.left.replace('px', '')
+  var left = parseInt(leftNumbers, 10)
+
+  function step() {
+
+    if (left > 0) {
+      DODGER.style.left = `${left -= 4}px`
+
+      // just need it to update one time, not until condition is false
+      // didnt internalize how editing the property is like an animation
+      // they prolly shouldve left recursion out of it - prolly can get the same
+      // effect w/ a loop (which is easier to understand for nubs)
+      // window.requestAnimationFrame(step)
+    }
+  }
+
+  window.requestAnimationFrame(step)
 }
 
 function moveDodgerRight() {
@@ -135,6 +179,18 @@ function moveDodgerRight() {
    * This function should move DODGER to the right
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
+
+var leftNumbers = DODGER.style.left.replace('px', '')
+var left = parseInt(leftNumbers, 10)
+
+function step() {
+
+if (left < 360) {
+ DODGER.style.left = `${left += 4}px`
+}
+}
+
+window.requestAnimationFrame(step)
 }
 
 /**
